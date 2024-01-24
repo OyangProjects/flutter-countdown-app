@@ -1,8 +1,15 @@
-import 'package:countdown_app/auth/login_page.dart';
+import 'package:countdown_app/auth/auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:countdown_app/presentation/nav_page.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -19,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         // home: const NavigationPage(),
-        home: LoginPage(),
+        home: const AuthController(),
     );
   }
 }

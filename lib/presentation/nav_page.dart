@@ -3,6 +3,7 @@ import 'package:countdown_app/domain/nav_bar.dart';
 import 'package:countdown_app/presentation/create_page.dart';
 import 'package:countdown_app/presentation/home_page.dart';
 import 'package:countdown_app/presentation/search_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -15,10 +16,16 @@ class _NavigationPageState extends State<NavigationPage> {
 
   int _selectedIndex = 0;
 
+  final user = FirebaseAuth.instance.currentUser!;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void signUserOut() {
+    FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -39,29 +46,30 @@ class _NavigationPageState extends State<NavigationPage> {
                 padding: EdgeInsets.zero,
                 height: 170.0,
                 width: double.infinity,
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.person_2_outlined, size: 50,),
-                    Text("Username"),
+                    const Icon(Icons.person_2_outlined, size: 50,),
+                    Text(user.email!),
                   ],
                 ),
               ),
-              ListTile(
+              const ListTile(
                 leading: Icon(Icons.person),
                 title: Text("Profile"),
               ),
-              ListTile(
+              const ListTile(
                 leading: Icon(Icons.list),
                 title: Text("Countdowns"),
               ),
-              ListTile(
+              const ListTile(
                 leading: Icon(Icons.settings),
                 title: Text("Settings"),
               ),
               ListTile(
-                leading: Icon(Icons.logout),
-                title: Text("Logout"),
+                leading: const Icon(Icons.logout),
+                title: const Text("Logout"),
+                onTap: signUserOut,
               ),
             ],
           ),

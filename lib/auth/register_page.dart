@@ -3,11 +3,11 @@ import 'package:countdown_app/auth/login_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
 
   final Function()? onTap;
 
-  LoginPage({
+  RegisterPage({
     super.key,
     required this.onTap
   });
@@ -15,8 +15,8 @@ class LoginPage extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void signUserIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+  void signUserUp() async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: emailController.text, 
       password: passwordController.text,
     );
@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
             
                 ),
             
-                const Text("Welcome back!"),
+                const Text("Create an Account"),
             
                 const SizedBox(height: 50,),
             
@@ -70,8 +70,8 @@ class LoginPage extends StatelessWidget {
                 ),
             
                 LoginButton(
-                  onTap: signUserIn,
-                  buttonText: 'Sign In',
+                  onTap: signUserUp,
+                  buttonText: 'Sign Up',
                 ),
             
                 // Other Sign in Options
@@ -85,13 +85,13 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Not a member?'
+                      'Already have an account?'
                     ),
                     SizedBox(width: 4.0),
                     GestureDetector(
                       onTap: onTap,
                       child: Text(
-                        'Register now',
+                        'Login Now',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
