@@ -19,6 +19,19 @@ class _NavigationPageState extends State<NavigationPage> {
   final user = FirebaseAuth.instance.currentUser!;
 
   void _onItemTapped(int index) {
+    if (index == 1) {
+      showModalBottomSheet(
+        enableDrag: false,
+        isDismissible: false,
+        isScrollControlled: true,
+        useSafeArea: true,
+        backgroundColor: Colors.transparent,
+        context: context, 
+        builder: (context) => CreatePage(),
+      );
+      return;
+    }
+
     setState(() {
       _selectedIndex = index;
     });
@@ -81,7 +94,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 index: _selectedIndex,
                 children: const [
                   HomePage(),
-                  CreatePage(),
+                  Placeholder(),
                   SearchPage(),
                 ],
               ),

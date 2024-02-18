@@ -19,11 +19,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
       //unselectedItemColor: Colors.grey,
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(Icons.add_home),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add_circle_outline),
+          icon: Icon(Icons.add_circle),
           label: 'Create',
         ),
         BottomNavigationBarItem(
