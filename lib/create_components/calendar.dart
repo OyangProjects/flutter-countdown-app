@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MyCalendar extends StatefulWidget {
-  const MyCalendar({super.key});
+  const MyCalendar({
+    super.key,
+    required this.dateGetter,
+    required this.dateSetter,
+  });
+
+  final ValueGetter<DateTime> dateGetter;
+  final ValueSetter<DateTime> dateSetter;
 
   @override
   State<MyCalendar> createState() => _MyCalendarState();
@@ -10,18 +17,17 @@ class MyCalendar extends StatefulWidget {
 
 class _MyCalendarState extends State<MyCalendar> {
 
-  DateTime _selectedDate = DateTime.now();
   final DateFormat _dateFormat = DateFormat('MM-dd-yyyy');
 
-  void _showDatePicker() {
+  void _showCalendar() {
     showDatePicker(
       context: context, 
       initialDate: DateTime.now(),
       firstDate: DateTime.now(), 
       lastDate: DateTime(2025),
-    ).then((value) => 
+    ).then((newDate) => 
       setState(() => 
-        _selectedDate = value!
+        widget.dateSetter(newDate ?? widget.dateGetter()),
       )
     );
   }
@@ -29,10 +35,10 @@ class _MyCalendarState extends State<MyCalendar> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
           width: double.infinity,
+          height: 40.0,
           child: TextButton(
             style: ButtonStyle(
                 backgroundColor: const MaterialStatePropertyAll(Colors.white), 
@@ -43,19 +49,16 @@ class _MyCalendarState extends State<MyCalendar> {
                   ),
                 ),
             ),
-            onPressed: _showDatePicker,
-            child: const Text(
-              'Select Date', 
-              style: TextStyle(
+            onPressed: _showCalendar,
+            child: Text(
+              _dateFormat.format(widget.dateGetter()), 
+              style: const TextStyle(
                 color: Colors.blue, 
+                fontSize: 20.0,
                 fontWeight: FontWeight.bold
               ),
             ),
           ),
-        ),
-        Text(
-          _dateFormat.format(_selectedDate), 
-          style: const TextStyle(fontSize: 25.0),
         ),
       ],
     );

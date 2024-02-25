@@ -1,6 +1,6 @@
+import 'package:countdown_app/presentation/third_page.dart';
 import 'package:flutter/material.dart';
 import 'package:countdown_app/domain/nav_bar.dart';
-import 'package:countdown_app/presentation/create_page.dart';
 import 'package:countdown_app/presentation/home_page.dart';
 import 'package:countdown_app/presentation/search_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,18 +19,18 @@ class _NavigationPageState extends State<NavigationPage> {
   final user = FirebaseAuth.instance.currentUser!;
 
   void _onItemTapped(int index) {
-    if (index == 1) {
-      showModalBottomSheet(
-        enableDrag: false,
-        isDismissible: false,
-        isScrollControlled: true,
-        useSafeArea: true,
-        backgroundColor: Colors.transparent,
-        context: context, 
-        builder: (context) => CreatePage(),
-      );
-      return;
-    }
+    // if (index == 1) {
+    //   showModalBottomSheet(
+    //     enableDrag: false,
+    //     isDismissible: false,
+    //     isScrollControlled: true,
+    //     useSafeArea: true,
+    //     backgroundColor: Colors.transparent,
+    //     context: context, 
+    //     builder: (context) => CreatePage(),
+    //   );
+    //   return;
+    // }
 
     setState(() {
       _selectedIndex = index;
@@ -49,12 +49,15 @@ class _NavigationPageState extends State<NavigationPage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+
         appBar: AppBar(title: const Text("App Bar")),
+
         drawer: Drawer(
           backgroundColor: Colors.white,
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
+
               Container(
                 padding: EdgeInsets.zero,
                 height: 170.0,
@@ -67,26 +70,32 @@ class _NavigationPageState extends State<NavigationPage> {
                   ],
                 ),
               ),
+
               const ListTile(
                 leading: Icon(Icons.person),
                 title: Text("Profile"),
               ),
+
               const ListTile(
                 leading: Icon(Icons.list),
                 title: Text("Countdowns"),
               ),
+
               const ListTile(
                 leading: Icon(Icons.settings),
                 title: Text("Settings"),
               ),
+
               ListTile(
                 leading: const Icon(Icons.logout),
                 title: const Text("Logout"),
                 onTap: signUserOut,
               ),
+
             ],
           ),
         ),
+
         body: Stack(
           children: [
             SafeArea(
@@ -94,17 +103,19 @@ class _NavigationPageState extends State<NavigationPage> {
                 index: _selectedIndex,
                 children: const [
                   HomePage(),
-                  Placeholder(),
                   SearchPage(),
+                  ThirdPage(),
                 ],
               ),
             ),
           ],
         ),
+
         bottomNavigationBar: CustomBottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ),
+
       ),
     );
   }

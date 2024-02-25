@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TimeScroll extends StatefulWidget {
-  const TimeScroll({super.key});
+  const TimeScroll({
+    super.key,
+    required this.updateHour,
+    required this.updateMinute,
+    required this.updateTimeAMPM,
+  });
+
+  final Function updateHour;
+  final Function updateMinute;
+  final Function updateTimeAMPM;
 
   @override
   State<TimeScroll> createState() => _TimeScrollState();
@@ -9,25 +18,14 @@ class TimeScroll extends StatefulWidget {
 
 class _TimeScrollState extends State<TimeScroll> {
 
-  late FixedExtentScrollController _hourController;
-  late FixedExtentScrollController _minController;
-  late FixedExtentScrollController _timeController;
-
-  @override 
-  void initState() {
-    super.initState();
-
-    _hourController = FixedExtentScrollController();
-    _minController = FixedExtentScrollController();
-    _timeController = FixedExtentScrollController();
-
-  }
+  final List<int> _timeAMPMList = [ 0, 12 ];
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [
+
         Positioned(
           top: 67.5,
           child: Container(
@@ -39,13 +37,17 @@ class _TimeScrollState extends State<TimeScroll> {
             ),
           ),
         ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             SizedBox(
               width: 50.0,
               child: ListWheelScrollView.useDelegate(
-                controller: _hourController,
+                onSelectedItemChanged: (newHour) {
+                  widget.updateHour(newHour);
+                },
                 itemExtent: 50,
                 perspective: 0.003,
                 diameterRatio: 0.6,
@@ -57,13 +59,17 @@ class _TimeScrollState extends State<TimeScroll> {
                 ),
               ),
             ),
+
             const SizedBox(
               width: 25.0,
             ),
+
             SizedBox(
               width: 50.0,
               child: ListWheelScrollView.useDelegate(
-                controller: _minController,
+                onSelectedItemChanged: (newMinute) {
+                  widget.updateMinute(newMinute);
+                },
                 itemExtent: 50,
                 perspective: 0.001,
                 diameterRatio: 0.6,
@@ -75,13 +81,17 @@ class _TimeScrollState extends State<TimeScroll> {
                 ),
               ),
             ),
+
             const SizedBox(
               width: 10.0,
             ),
+
             SizedBox(
               width: 50.0,
               child: ListWheelScrollView.useDelegate(
-                controller: _timeController,
+                onSelectedItemChanged: (newTimeAMPM) {
+                  widget.updateTimeAMPM(_timeAMPMList[newTimeAMPM]);
+                },
                 itemExtent: 50,
                 perspective: 0.003,
                 diameterRatio: 0.6,
@@ -98,8 +108,10 @@ class _TimeScrollState extends State<TimeScroll> {
                 ),
               ),
             ),
+
           ],
         ),
+        
       ]
     );
   }
@@ -114,7 +126,7 @@ class HourScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      (hours + 1).toString(),
+      hours == 0 ? "12" : hours.toString(),
       style: const TextStyle(
         fontSize: 30.0,
         color: Colors.black,

@@ -2,7 +2,17 @@ import 'package:countdown_app/create_components/time_scroll.dart';
 import 'package:flutter/material.dart';
 
 class TimeSelect extends StatefulWidget {
-  const TimeSelect({super.key});
+
+  const TimeSelect({
+    super.key,
+    required this.updateHour,
+    required this.updateMinute,
+    required this.updateTimeAMPM,
+  });
+
+  final Function updateHour;
+  final Function updateMinute;
+  final Function updateTimeAMPM;
 
   @override
   State<TimeSelect> createState() => _TimeSelectState();
@@ -10,7 +20,7 @@ class TimeSelect extends StatefulWidget {
 
 class _TimeSelectState extends State<TimeSelect> with TickerProviderStateMixin {
   
-  bool expanded = false;
+  bool _expanded = false;
 
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -28,14 +38,15 @@ class _TimeSelectState extends State<TimeSelect> with TickerProviderStateMixin {
     );
   }
 
-  _toggleTimeScroll() {
-    expanded = !expanded;
+  void toggleTimeScroll() {
+    _expanded = !_expanded;
     if (_animation.status != AnimationStatus.completed) {
       _controller.forward();
     } else {
       _controller.animateBack(0.0, duration: const Duration(milliseconds: 100));
     }
     setState(() {});
+    return;
   }
 
   @override
@@ -47,17 +58,19 @@ class _TimeSelectState extends State<TimeSelect> with TickerProviderStateMixin {
       ),
       child: Column(
         children: [
+
           Container(
+
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: expanded ? const BorderRadius.only(
+              borderRadius: _expanded ? const BorderRadius.only(
                 topLeft: Radius.circular(15.0),
                 topRight: Radius.circular(15.0),
                 bottomLeft: Radius.zero,
                 bottomRight: Radius.zero,
               ) : BorderRadius.circular(15.0),
             ),
-            // color: Colors.white,
+
             child: Row(
               children: [
                 const SizedBox(
@@ -65,7 +78,7 @@ class _TimeSelectState extends State<TimeSelect> with TickerProviderStateMixin {
                 ),
                 const Text("All-day"),
                 const Spacer(),
-                TimeToggleButton(() { _toggleTimeScroll(); }
+                TimeToggleButton(() { toggleTimeScroll(); }
                 ),
                 const SizedBox(
                   width: 10.0,
@@ -73,6 +86,8 @@ class _TimeSelectState extends State<TimeSelect> with TickerProviderStateMixin {
               ],
             ),
           ),
+
+          // Time Scroll
           SizeTransition(
             sizeFactor: _animation,
             axis: Axis.vertical,
@@ -87,9 +102,14 @@ class _TimeSelectState extends State<TimeSelect> with TickerProviderStateMixin {
                   bottomRight: Radius.circular(15.0),
                 )
               ),
-              child: const TimeScroll(),
+              child: TimeScroll(
+                updateHour: widget.updateHour,
+                updateMinute: widget.updateMinute,
+                updateTimeAMPM: widget.updateTimeAMPM,
+              ),
             ),
           ),
+
         ],
       ),
     );
@@ -98,11 +118,11 @@ class _TimeSelectState extends State<TimeSelect> with TickerProviderStateMixin {
 
 class TimeToggleButton extends StatefulWidget {
   const TimeToggleButton(
-    this.changedTest, 
+    this.changeTimeScroll, 
     {super.key}
   );
 
-  final void Function() changedTest;
+  final VoidCallback changeTimeScroll;
 
   @override
   State<TimeToggleButton> createState() => _TimeToggleButtonState();
@@ -110,17 +130,17 @@ class TimeToggleButton extends StatefulWidget {
 
 class _TimeToggleButtonState extends State<TimeToggleButton> {
 
-  bool light = true;
+  bool _activeButton = true;
 
   @override
   Widget build(BuildContext context) {
     return Switch(
-      value: light,
+      value: _activeButton,
       activeColor: Colors.green,
       onChanged: (bool value) {
         setState(() {
-          light = value;
-          widget.changedTest();
+          _activeButton = value;
+          widget.changeTimeScroll();
         });
       },
     );

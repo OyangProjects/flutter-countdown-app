@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// https://stackoverflow.com/questions/58098610/how-to-set-width-of-the-flutter-togglebuttons-widget
 // Set text to bold color if selected
 
 const List<Widget> repeatOptions = [
@@ -19,7 +18,6 @@ class RepeatToggle extends StatefulWidget {
 }
 
 class _RepeatToggleState extends State<RepeatToggle> {
-  // @override
 
   final List<bool> _selectedRepeat = [true, false, false, false, false];
 

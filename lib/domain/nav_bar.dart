@@ -23,12 +23,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add_circle),
-          label: 'Create',
+          icon: Icon(Icons.group),
+          label: 'Communities',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
+          icon: Icon(Icons.notifications),
+          label: 'Activity',
         ),
       ],
     );

@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
             
                 ),
             
-                const Text("Welcome back!"),
+                const Text("Welcome to Name of App"),
             
                 const SizedBox(height: 50,),
             
@@ -75,22 +75,32 @@ class LoginPage extends StatelessWidget {
                 ),
             
                 // Other Sign in Options
-            
-                const Divider(
-                  thickness: 0.5,
-                  color: Colors.red,
+
+                const SizedBox(
+                  height: 10.0,
                 ),
             
+                const Divider(
+                  thickness: 1.0,
+                  color: Colors.black,
+                  indent: 5.0,
+                  endIndent: 5.0,
+                ),
+            
+                const SizedBox(
+                  height: 10.0,
+                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Not a member?'
                     ),
-                    SizedBox(width: 4.0),
+                    const SizedBox(width: 4.0),
                     GestureDetector(
                       onTap: onTap,
-                      child: Text(
+                      child: const Text(
                         'Register now',
                         style: TextStyle(
                           color: Colors.blue,
